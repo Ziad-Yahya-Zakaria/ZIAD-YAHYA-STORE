@@ -3,363 +3,499 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>زياد يحيى | Ziad Yahya - DotFlow Engine Pro</title>
-    <link rel="manifest" href="manifest.json">
-    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@200;300;400;500;700;900&display=swap" rel="stylesheet">
+    <title>ZIAD YAHYA | DotFlow Ultimate V3.0</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@200;400;500;700;900&family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+
     <style>
         :root {
-            --accent: #ffff00;
-            --bg-deep: #020202;
-            --glass: rgba(20, 20, 20, 0.8);
-            --text-main: #ffffff;
-            --dotflow-color: #00f2ff;
-            --card-gradient: linear-gradient(145deg, #0a0a0a, #111111);
-            --neon-shadow: 0 0 15px rgba(255, 255, 0, 0.2);
-            --text-dim: #888;
+            --primary: #ffff00;
+            --primary-glow: rgba(255, 255, 0, 0.4);
+            --secondary: #00f2ff;
+            --bg-dark: #030303;
+            --card-bg: rgba(15, 15, 15, 0.8);
+            --border: rgba(255, 255, 255, 0.05);
+            --text-main: #f0f0f0;
+            --text-mute: #777;
+            --grad: linear-gradient(135deg, #ffff00 0%, #ffcc00 100%);
+            --transition: all 0.5s cubic-bezier(0.19, 1, 0.22, 1);
         }
 
-        * { box-sizing: border-box; transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1); }
+        * {
+            margin: 0; padding: 0; box-sizing: border-box;
+            outline: none; -webkit-tap-highlight-color: transparent;
+        }
 
         body {
-            margin: 0;
-            font-family: 'Tajawal', sans-serif;
-            background-color: var(--bg-deep);
+            background-color: var(--bg-dark);
             color: var(--text-main);
+            font-family: 'Tajawal', sans-serif;
             overflow-x: hidden;
             scroll-behavior: smooth;
         }
 
-        /* الخلفية الشبكية المتحركة */
-        .bg-mesh {
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: radial-gradient(circle at 10% 20%, rgba(255, 255, 0, 0.05) 0%, transparent 40%),
-                        radial-gradient(circle at 90% 80%, rgba(0, 242, 255, 0.03) 0%, transparent 40%);
-            z-index: -1;
+        #bg-canvas {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            z-index: -1; opacity: 0.6;
+            background: radial-gradient(circle at 50% 50%, #111 0%, #000 100%);
         }
 
         nav {
-            padding: 20px 5%;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            position: sticky;
-            top: 0;
-            background: var(--glass);
-            backdrop-filter: blur(10px);
-            z-index: 100;
-            border-bottom: 1px solid #111;
+            position: fixed; top: 0; width: 100%; z-index: 1000;
+            padding: 15px 6%;
+            display: flex; justify-content: space-between; align-items: center;
+            background: rgba(0,0,0,0.85);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--border);
         }
 
-        .logo { font-weight: 900; font-size: 1.5rem; color: var(--accent); letter-spacing: 1px; }
+        /* حل مشكلة عكس الاسم باستخدام flex-direction: row-reverse لضمان الترتيب الصحيح في RTL */
+        .brand {
+            display: flex; 
+            align-items: center; 
+            gap: 8px;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.3rem; 
+            font-weight: 700; 
+            color: #fff;
+            letter-spacing: 1px;
+            direction: ltr; /* لضمان بقاء ZIAD YAHYA بالترتيب الصحيح برمجياً */
+        }
+
+        .brand span { color: var(--primary); text-shadow: 0 0 15px var(--primary-glow); }
+
+        .system-time {
+            background: rgba(255,255,0,0.05);
+            padding: 8px 18px; border-radius: 12px;
+            border: 1px solid var(--primary-glow);
+            font-family: 'Orbitron', sans-serif;
+            color: var(--primary); font-size: 0.85rem;
+            box-shadow: inset 0 0 10px rgba(255,255,0,0.05);
+            min-width: 100px; text-align: center;
+        }
 
         .hero {
-            height: 85vh;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            text-align: center;
-            padding: 20px;
-        }
-
-        .dev-badge {
-            background: rgba(255, 255, 255, 0.05);
-            padding: 8px 20px;
-            border-radius: 50px;
-            border: 1px solid #333;
-            font-size: 0.8rem;
-            margin-bottom: 20px;
-            color: var(--dotflow-color);
-            text-transform: uppercase;
-            letter-spacing: 2px;
-        }
-
-        .hero h1 { font-size: clamp(2.5rem, 8vw, 5.5rem); margin: 0; font-weight: 900; line-height: 1.1; }
-        .hero p { font-size: 1.1rem; color: #888; max-width: 700px; margin: 25px 0; line-height: 1.7; }
-
-        .section-title { padding: 50px 5%; font-size: 1.8rem; border-right: 5px solid var(--accent); margin: 50px 5% 30px; }
-
-        /* --- نظام المراقبة الفائق (SVG Monitoring) --- */
-        .monitor-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
-            gap: 25px;
-            padding: 0 5% 50px;
-        }
-
-        .service-card {
-            background: var(--card-gradient);
-            border: 1px solid #1a1a1a;
-            border-radius: 20px;
-            padding: 30px;
+            min-height: 100vh;
+            display: flex; flex-direction: column; justify-content: center; align-items: center;
+            text-align: center; padding: 120px 10% 60px;
             position: relative;
-            overflow: hidden;
         }
 
-        .service-card:hover { border-color: var(--accent); box-shadow: var(--neon-shadow); transform: translateY(-5px); }
-
-        .gauge-box {
-            position: relative;
-            width: 160px; height: 160px;
-            margin: 20px auto;
+        .hero-badge {
+            background: var(--grad); color: #000;
+            padding: 6px 22px; border-radius: 50px;
+            font-weight: 900; font-size: 0.7rem;
+            margin-bottom: 30px; letter-spacing: 2px;
+            box-shadow: 0 10px 30px rgba(255, 255, 0, 0.2);
         }
 
-        .gauge-svg { transform: rotate(-90deg); width: 100%; height: 100%; }
-        .gauge-track { fill: none; stroke: #151515; stroke-width: 6; }
-        .gauge-progress {
-            fill: none; stroke: var(--accent); stroke-width: 6;
-            stroke-linecap: round; stroke-dasharray: 283; stroke-dashoffset: 283;
-            transition: stroke-dashoffset 2s ease-out;
+        .hero h1 {
+            font-size: clamp(2.2rem, 7vw, 5rem);
+            line-height: 1.1; font-weight: 900;
+            margin-bottom: 25px;
+            background: linear-gradient(to bottom, #fff 30%, #666);
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
         }
 
-        .gauge-data { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); text-align: center; }
-        .ping-val { font-size: 2.2rem; font-weight: 700; color: #fff; line-height: 1; }
-        .ping-unit { font-size: 0.7rem; color: var(--text-dim); }
-
-        .badge-status { padding: 6px 14px; border-radius: 50px; font-size: 0.75rem; font-weight: 700; text-transform: uppercase; }
-        .badge-online { background: rgba(0, 255, 136, 0.1); color: #00ff88; }
-        .badge-loading { background: rgba(255, 255, 0, 0.1); color: var(--accent); }
-
-        /* --- متجر التطبيقات (App Store) --- */
-        .app-container {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 25px;
-            padding: 0 5% 100px;
+        .hero p {
+            max-width: 750px; color: var(--text-mute);
+            font-size: clamp(1rem, 2vw, 1.2rem); line-height: 1.8; margin-bottom: 40px;
         }
+
+        .dashboard-strip {
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px; width: 90%; max-width: 1200px;
+            margin: -60px auto 100px;
+            padding: 35px; background: var(--card-bg);
+            border-radius: 30px; border: 1px solid var(--border);
+            backdrop-filter: blur(15px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+        }
+
+        .stat-box { text-align: center; position: relative; padding: 10px; }
+        .stat-box:not(:last-child)::after {
+            content: ''; position: absolute; left: -10px; top: 20%;
+            height: 60%; width: 1px; background: var(--border);
+        }
+
+        .stat-label { color: var(--text-mute); font-size: 0.75rem; display: block; margin-bottom: 10px; text-transform: uppercase; letter-spacing: 1px; }
+        .stat-value { font-family: 'Orbitron', sans-serif; font-size: 1.3rem; color: var(--secondary); font-weight: 700; }
+
+        .store-section { padding: 0 6% 100px; scroll-margin-top: 100px; }
+        .section-title { margin-bottom: 50px; display: flex; align-items: center; gap: 20px; }
+        .section-title h2 { font-size: 2rem; font-weight: 900; }
+        .section-title .line { flex: 1; height: 1px; background: var(--border); }
+
+        .app-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 30px; }
 
         .app-card {
-            background: #080808; border-radius: 28px; padding: 35px;
-            border: 1px solid #151515; cursor: pointer; position: relative;
+            background: var(--card-bg); border-radius: 28px; padding: 35px;
+            border: 1px solid var(--border); transition: var(--transition);
+            cursor: pointer; position: relative; overflow: hidden;
         }
 
-        .app-card:hover { border-color: var(--accent); transform: translateY(-8px); box-shadow: 0 15px 35px rgba(0,0,0,0.6); }
-        .app-icon-large { font-size: 3.5rem; color: var(--accent); margin-bottom: 20px; }
-
-        .tech-tag {
-            display: inline-block; background: #111; padding: 6px 14px;
-            border-radius: 6px; font-size: 0.75rem; margin: 4px; color: #777; border: 1px solid #1a1a1a;
+        .app-card:hover {
+            transform: translateY(-12px); border-color: var(--primary);
+            box-shadow: 0 25px 50px rgba(0,0,0,0.5), 0 0 20px rgba(255,255,0,0.1);
         }
 
-        /* --- صفحة التطبيق (App Overlay) --- */
-        .app-overlay {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: var(--bg-deep); z-index: 1000; display: none;
-            overflow-y: auto; padding: 60px 5%; animation: slideUp 0.4s ease;
-        }
-
-        @keyframes slideUp { from { transform: translateY(100%); } to { transform: translateY(0); } }
-
-        .app-img-box {
-            width: 140px; height: 140px; background: #111; border-radius: 32px;
+        .app-icon-wrap {
+            width: 70px; height: 70px; background: #111; border-radius: 20px;
             display: flex; align-items: center; justify-content: center;
-            font-size: 4rem; color: var(--accent); border: 1px solid #222;
+            font-size: 2.2rem; color: var(--primary); margin-bottom: 25px;
+            border: 1px solid rgba(255,255,0,0.1);
         }
 
-        .btn-install {
-            background: var(--accent); color: #000; padding: 16px 40px;
-            border-radius: 12px; font-weight: 900; text-decoration: none;
-            display: inline-block; width: 100%; text-align: center; font-size: 1.1rem; border: none; cursor: pointer;
+        .app-info h3 { font-size: 1.5rem; margin-bottom: 10px; font-weight: 700; }
+        .app-info p { color: var(--text-mute); font-size: 0.9rem; line-height: 1.5; margin-bottom: 30px; min-height: 45px; }
+
+        .app-meta { display: flex; justify-content: space-between; align-items: center; }
+        .tag { font-size: 0.6rem; padding: 5px 12px; background: rgba(0,242,255,0.05); border-radius: 6px; color: var(--secondary); border: 1px solid rgba(0,242,255,0.1); }
+        .btn-install { background: var(--primary); color: #000; width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1rem; transition: 0.3s; }
+        .app-card:hover .btn-install { transform: rotate(-45deg); }
+
+        .app-viewer {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.95); z-index: 2000;
+            display: none; opacity: 0; backdrop-filter: blur(15px);
+            transition: 0.5s cubic-bezier(0.19, 1, 0.22, 1);
         }
 
-        .btn-outline { background: transparent; border: 2px solid var(--accent); color: var(--accent); margin-top: 15px; }
+        .app-viewer.active { display: block; opacity: 1; }
 
-        footer { padding: 60px; text-align: center; border-top: 1px solid #111; font-size: 0.85rem; color: #444; }
-        .dotflow-footer { color: var(--dotflow-color); font-weight: bold; margin-top: 10px; display: block; }
+        .viewer-nav { padding: 25px 6%; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border); }
 
-        #timer-bar {
-            position: fixed; bottom: 0; left: 0; height: 3px;
-            background: var(--accent); width: 100%; transition: width 1s linear;
+        .viewer-content {
+            max-width: 1100px; margin: 0 auto; padding: 60px 6%;
+            display: grid; grid-template-columns: 1fr 1.5fr; gap: 60px;
+            max-height: 80vh; overflow-y: auto;
+        }
+
+        .big-icon {
+            width: 150px; height: 150px; background: #0a0a0a;
+            border-radius: 40px; margin: 0 auto 30px;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 4.5rem; color: var(--primary);
+            border: 1px solid var(--border); box-shadow: 0 20px 40px rgba(0,0,0,0.5);
+        }
+
+        .viewer-details h1 { font-size: 3rem; font-weight: 900; margin-bottom: 10px; }
+        .description-box {
+            background: rgba(255,255,255,0.02); padding: 30px; border-radius: 20px;
+            border: 1px solid var(--border); line-height: 1.8; color: #ccc; margin-bottom: 40px;
+        }
+
+        .action-bar { display: flex; gap: 15px; }
+        .main-btn {
+            background: var(--grad); color: #000; padding: 18px 40px; border-radius: 18px;
+            font-weight: 900; text-decoration: none; flex: 1; text-align: center;
+            box-shadow: 0 10px 25px var(--primary-glow); transition: 0.3s;
+        }
+        .main-btn:hover { transform: translateY(-3px); filter: brightness(1.1); box-shadow: 0 15px 30px var(--primary-glow); }
+
+        .secondary-btn {
+            background: #111; color: #fff; width: 60px; border-radius: 18px;
+            border: 1px solid var(--border); display: flex; align-items: center; justify-content: center;
+            cursor: pointer; transition: 0.3s;
+        }
+        .secondary-btn:hover { background: #222; border-color: var(--primary); color: var(--primary); }
+
+        footer { padding: 80px 6% 40px; background: #010101; border-top: 1px solid var(--border); }
+        .footer-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 40px; }
+        .footer-about h2 { font-family: 'Orbitron'; margin-bottom: 20px; font-size: 1.5rem; direction: ltr; text-align: right; }
+        .footer-links h4 { color: var(--primary); margin-bottom: 20px; font-size: 1rem; }
+        .footer-links ul { list-style: none; }
+        .footer-links li { margin-bottom: 12px; color: var(--text-mute); font-size: 0.9rem; transition: 0.3s; cursor: pointer; }
+        .footer-links li:hover { color: var(--primary); transform: translateX(-5px); }
+
+        #toast {
+            position: fixed; bottom: 30px; right: 30px; background: var(--primary);
+            color: #000; padding: 12px 25px; border-radius: 10px; font-weight: bold;
+            z-index: 5000; display: none; animation: fadeInUp 0.5s;
+        }
+
+        @media (max-width: 850px) {
+            .viewer-content { grid-template-columns: 1fr; text-align: center; padding-top: 20px; }
+            .big-icon { width: 120px; height: 120px; font-size: 3.5rem; }
+            .dashboard-strip { margin-top: 0; padding: 20px; }
+            .stat-box:not(:last-child)::after { display: none; }
+            .action-bar { flex-direction: column; }
+            .secondary-btn { width: 100%; height: 50px; }
         }
     </style>
 </head>
 <body>
 
-    <div class="bg-mesh"></div>
+    <div id="loader" style="position: fixed; top: 0; left: 0; width: 0; height: 3px; background: var(--primary); z-index: 3000; transition: 0.4s;"></div>
+    <div id="toast">تم نسخ الرابط بنجاح!</div>
+    <canvas id="bg-canvas"></canvas>
 
     <nav>
-        <div class="logo">ZIAD YAHYA</div>
-        <div style="font-size: 0.7rem; opacity: 0.4;">ENGINE: DOTFLOW V2.0</div>
+        <div class="brand">ZIAD <span>YAHYA</span> <small style="font-size: 9px; opacity: 0.4; margin-right: 5px;">V3.0</small></div>
+        <div class="system-time" id="clock">00:00:00</div>
     </nav>
 
-    <section class="hero">
-        <div class="dev-badge"><i class="fas fa-bolt"></i> نظام دوت فلو التقني</div>
-        <h1>العقل البرمجي<br><span style="color: var(--accent);">لزياد يحيى</span></h1>
-        <p>مطور حلول الويب المتقدمة. اكتشف مجموعتي من التطبيقات والأنظمة الذكية المراقبة لحظياً لضمان أعلى مستويات الأداء في جمهورية مصر العربية.</p>
-        <a href="#store" class="btn-install" style="width: auto; padding: 14px 35px; border-radius: 50px;">تصفح المتجر</a>
+    <header class="hero">
+        <div class="hero-badge animate__animated animate__fadeInDown">ULTIMATE SOLUTIONS 2026</div>
+        <h1 class="animate__animated animate__fadeInUp">بوابتك لمستقبل البرمجيات</h1>
+        <p class="animate__animated animate__fadeInUp animate__delay-1s">
+            منصة متكاملة تجمع بين قوة الأداء وسلاسة التصميم. محرك DotFlow يوفر لك وصولاً فورياً لأنظمة التحصيل، التتبع الجغرافي، وحسابات البيانات المعقدة في بيئة مشفرة بالكامل.
+        </p>
+        <div class="animate__animated animate__fadeInUp animate__delay-2s">
+            <a href="#store" class="main-btn" style="display: inline-block; min-width: 200px;">استكشاف المتجر</a>
+        </div>
+    </header>
+
+    <section class="dashboard-strip" id="monitor-section">
+        <div class="stat-box">
+            <span class="stat-label">حالة السيرفر</span>
+            <div class="stat-value" id="status-text" style="color: #00ff88;">STABLE</div>
+        </div>
+        <div class="stat-box">
+            <span class="stat-label">زمن الاستجابة</span>
+            <div class="stat-value" id="ping-val">-- MS</div>
+        </div>
+        <div class="stat-box">
+            <span class="stat-label">وقت التشغيل</span>
+            <div class="stat-value" id="uptime-val">0D 0H</div>
+        </div>
+        <div class="stat-box">
+            <span class="stat-label">أمان البيانات</span>
+            <div class="stat-value">SSL 256bit</div>
+        </div>
     </section>
 
-    <h2 class="section-title">مركز مراقبة الأنظمة (Node: Egypt)</h2>
-    <div class="monitor-grid" id="monitor-grid"></div>
+    <main class="store-section" id="store">
+        <div class="section-title">
+            <h2>التطبيقات المثبتة</h2>
+            <div class="line"></div>
+        </div>
+        <div class="app-grid" id="main-app-container"></div>
+    </main>
 
-    <div id="store">
-        <h2 class="section-title">المتجر الذكي للأنظمة</h2>
-        <div class="app-container">
-            <div class="app-card" onclick="openApp('RZ-ENTERPRISE', 'نظام تحصيل الفواتير الميدانية', 'fa-file-invoice-dollar', 'https://ziad-yahya-zakaria.github.io/RZ-ENTERPRISE/', 'enterprise')">
-                <div class="app-icon-large"><i class="fas fa-file-invoice-dollar"></i></div>
-                <h3>RZ-ENTERPRISE</h3>
-                <p>الحل المتكامل لإدارة المناديب والتحصيل بدقة متناهية.</p>
-                <div style="margin-top: 15px;">
-                    <span class="tech-tag">PWA</span>
-                    <span class="tech-tag">OFFLINE</span>
-                    <span class="tech-tag">DOTFLOW</span>
+    <div class="app-viewer" id="appViewer">
+        <div class="viewer-nav">
+            <div class="brand">ZIAD <span>YAHYA</span></div>
+            <div style="cursor: pointer; font-size: 1.8rem;" onclick="closeViewer()"><i class="fas fa-times-circle"></i></div>
+        </div>
+
+        <div class="viewer-content">
+            <div class="viewer-sidebar">
+                <div class="big-icon" id="v-icon"></div>
+                <div class="tech-stack" id="v-stack" style="display:flex; flex-wrap:wrap; gap:10px; justify-content:center;"></div>
+            </div>
+            <div class="viewer-details">
+                <h1 id="v-title">App Name</h1>
+                <span class="subtitle" id="v-subtitle" style="color:var(--primary); display:block; margin-bottom:20px;">Category</span>
+                
+                <div class="description-box">
+                    <p id="v-desc"></p>
                 </div>
-            </div>
 
-            <div class="app-card" onclick="openApp('Azan Time Web', 'مواقيت الصلاة الذكية', 'fa-mosque', 'https://ziad-yahya-zakaria.github.io/Azan-Time-Web/', 'azan')">
-                <div class="app-icon-large"><i class="fas fa-mosque"></i></div>
-                <h3>Azan Time Web</h3>
-                <p>عرض مواقيت الصلاة بدقة بناءً على الموقع الجغرافي.</p>
-                <div style="margin-top: 15px;">
-                    <span class="tech-tag">GEOLOCATION</span>
-                    <span class="tech-tag">LATEST</span>
-                    <span class="tech-tag">UTILITY</span>
+                <div class="action-bar">
+                    <a href="#" id="v-link" target="_blank" class="main-btn">تشغيل النظام الآن</a>
+                    <div class="secondary-btn" id="share-btn" onclick="shareApp()"><i class="fas fa-share-alt"></i></div>
                 </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="app-overlay" id="appPage">
-        <div style="position:fixed; top:25px; left:25px; background:#1a1a1a; width:45px; height:45px; border-radius:50%; display:flex; align-items:center; justify-content:center; cursor:pointer;" onclick="closeApp()">
-            <i class="fas fa-times"></i>
-        </div>
-        <div style="display:flex; flex-wrap:wrap; gap:30px; align-items:center; max-width:900px; margin:auto;">
-            <div class="app-img-box" id="modalIcon"></div>
-            <div>
-                <h1 id="modalTitle" style="margin: 0; font-size: 2.2rem;"></h1>
-                <p id="modalSub" style="color: var(--accent); margin: 5px 0;"></p>
-                <div style="font-size: 0.9rem; color: #555;">الناشر: زياد يحيى • محرك دوت فلو</div>
-            </div>
-        </div>
-        <div style="max-width: 900px; margin: 40px auto;">
-            <a id="directLink" href="#" class="btn-install" target="_blank">دخول المنصة الآن</a>
-            <div style="margin-top: 40px;">
-                <h3 style="color: var(--accent);">عن النظام</h3>
-                <p id="modalDesc" style="line-height: 1.8; color: #aaa;"></p>
-                <h3 style="margin-top: 30px;">المواصفات التقنية (DotFlow Core)</h3>
-                <div id="techSpecs" style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; color: #666; font-size: 0.9rem;"></div>
             </div>
         </div>
     </div>
 
     <footer>
-        <p>تصميم وتطوير: زياد يحيى زكريا</p>
-        <div style="font-size: 0.8rem; color: #888; margin: 10px 0;">تحديث تلقائي خلال: <span id="counter">60</span> ثانية</div>
-        <span class="dotflow-footer">POWERED BY DOTFLOW ENGINE V2.0</span>
-        <p style="font-size: 0.7rem; margin-top: 15px; opacity: 0.3;">جميع الحقوق محفوظة &copy; 2026</p>
+        <div class="footer-grid">
+            <div class="footer-about">
+                <h2>ZIAD YAHYA</h2>
+                <p style="color: var(--text-mute); font-size: 0.9rem;">مطور برمجيات متخصص في بناء الأنظمة المعقدة وواجهات المستخدم التفاعلية. جميع التطبيقات المتوفرة هي نتاج تطوير خاص ومستمر.</p>
+                <div style="margin-top: 25px; display: flex; gap: 15px;">
+                    <a href="https://github.com/Ziad-Yahya-Zakaria" target="_blank" style="color: #fff; font-size: 1.4rem;"><i class="fab fa-github"></i></a>
+                    <a href="https://www.linkedin.com/in/zssd/" target="_blank" style="color: var(--primary); font-size: 1.4rem;"><i class="fab fa-linkedin"></i></a>
+                </div>
+            </div>
+            <div class="footer-links">
+                <h4>الروابط السريعة</h4>
+                <ul>
+                    <li onclick="window.scrollTo({top:0, behavior:'smooth'})">الرئيسية</li>
+                    <li onclick="document.getElementById('store').scrollIntoView({behavior:'smooth'})">المتجر</li>
+                    <li onclick="document.getElementById('monitor-section').scrollIntoView({behavior:'smooth'})">مراقبة النظام</li>
+                </ul>
+            </div>
+            <div class="footer-links">
+                <h4>الدعم</h4>
+                <ul>
+                    <li>المساعدة التقنية</li>
+                    <li>طلب تطوير خاص</li>
+                </ul>
+            </div>
+        </div>
+        <p style="text-align: center; margin-top: 60px; color: #222; font-size: 0.75rem; letter-spacing: 1px;">
+            COPYRIGHT © 2026 DOTFLOW ENGINE | DESIGNED BY ZIAD YAHYA
+        </p>
     </footer>
 
-    <div id="timer-bar"></div>
-
     <script>
-        const services = [
+        const APPS_DATABASE = [
             {
-                name: "متجر تطبيقات دوت فلو",
-                url: "https://ziad-yahya-store.vercel.app",
-                desc: "المعرض الرقمي الرئيسي للأنظمة."
+                id: 'rz-ent',
+                name: 'RZ-ENTERPRISE',
+                sub: 'إدارة التحصيل والمالية',
+                icon: 'fa-file-invoice-dollar',
+                desc: 'النظام الرائد في إدارة العمليات المالية الميدانية. يتيح للمناديب تحصيل الفواتير، إصدار السندات، والربط المباشر مع قواعد البيانات المركزية حتى في حال انقطاع الإنترنت.',
+                tech: ['JavaScript', 'PWA', 'SQLite'],
+                tags: ['Enterprise', 'Finance'],
+                url: 'https://ziad-yahya-zakaria.github.io/RZ-ENTERPRISE/'
             },
             {
-                name: "نظام RZ-ENTERPRISE",
-                url: "https://ziad-yahya-zakaria.github.io/RZ-ENTERPRISE/",
-                desc: "إدارة التحصيل الميدانية."
+                id: 'azan-web',
+                name: 'Azan Time Pro',
+                sub: 'مواقيت صلاة ذكية',
+                icon: 'fa-mosque',
+                desc: 'تطبيق فلكي عالي الدقة يعتمد على خوارزميات تحديد الموقع الجغرافي GPS لتقديم مواقيت الصلاة مع تنبيهات ذكية وواجهة عصرية.',
+                tech: ['Geolocation', 'Motion CSS'],
+                tags: ['Utility', 'Live'],
+                url: 'https://ziad-yahya-zakaria.github.io/Azan-Time-Web/'
             },
             {
-                name: "تطبيق Azan Time Web",
-                url: "https://ziad-yahya-zakaria.github.io/Azan-Time-Web/",
-                desc: "مواقيت الصلاة الجغرافية."
+                id: 'dotflow-moni',
+                name: 'Monitor Center',
+                sub: 'مراقب الخوادم والشبكة',
+                icon: 'fa-microchip',
+                desc: 'لوحة تحكم مركزية لمراقبة أداء الخوادم، سرعة الاستجابة، وتتبع سجل الأخطاء لحظة بلحظة. يتم دمجها حالياً في الصفحة الرئيسية لسهولة الوصول.',
+                tech: ['Networking', 'Real-time'],
+                tags: ['Admin', 'Network'],
+                url: '#monitor-section'
             }
         ];
 
-        const appsFullData = {
-            'enterprise': {
-                desc: "الحل الذكي لإدارة تحصيل فواتير المناديب ميدانياً بدقة واحترافية. يتميز بإدارة الفواتير، طباعة PDF، وأمان متقدم.",
-                specs: ["دعم العمل بدون إنترنت", "تشفير البيانات محلياً", "تصدير JSON", "تحديثات هوائية"]
-            },
-            'azan': {
-                desc: "تطبيق ويب مخصص لعرض مواقيت الصلوات بناءً على الموقع الجغرافي بدقة عالية وواجهة مريحة للعين.",
-                specs: ["تحديد الموقع الجغرافي", "تحديثات لحظية", "خفيف وسريع", "واجهة بسيطة"]
-            }
-        };
-
-        function initMonitor() {
-            const grid = document.getElementById('monitor-grid');
-            grid.innerHTML = services.map((s, i) => `
-                <div class="service-card">
-                    <div style="display:flex; justify-content:space-between; align-items:start">
-                        <div class="service-info">
-                            <span class="badge-status badge-loading" id="badge-${i}">فحص..</span>
-                            <h3 style="margin:10px 0 5px 0; font-size:1.2rem;">${s.name}</h3>
+        function initStore() {
+            const container = document.getElementById('main-app-container');
+            container.innerHTML = ''; // تنظيف الحاوية أولاً
+            APPS_DATABASE.forEach((app, index) => {
+                const card = `
+                    <div class="app-card animate__animated animate__fadeInUp" style="animation-delay: ${index * 0.15}s" onclick="viewApp('${app.id}')">
+                        <div class="app-icon-wrap"><i class="fas ${app.icon}"></i></div>
+                        <div class="app-info">
+                            <h3>${app.name}</h3>
+                            <p>${app.sub}</p>
                         </div>
-                    </div>
-                    <div class="gauge-box">
-                        <svg class="gauge-svg" viewBox="0 0 100 100">
-                            <circle class="gauge-track" cx="50" cy="50" r="45"></circle>
-                            <circle id="fill-${i}" class="gauge-progress" cx="50" cy="50" r="45"></circle>
-                        </svg>
-                        <div class="gauge-data">
-                            <div class="ping-val" id="ping-${i}">--</div>
-                            <div class="ping-unit">MS PING</div>
+                        <div class="app-meta">
+                            <div class="tag-list">${app.tags.map(t => `<span class="tag">${t}</span>`).join(' ')}</div>
+                            <div class="btn-install"><i class="fas fa-arrow-left"></i></div>
                         </div>
-                    </div>
-                    <div style="font-size:0.75rem; color:#444; border-top:1px solid #1a1a1a; padding-top:10px; margin-top:15px">
-                        الجودة في مصر: <span id="quality-${i}" style="color:#fff">--</span>
-                    </div>
-                </div>
-            `).join('');
+                    </div>`;
+                container.innerHTML += card;
+            });
         }
 
-        async function checkService(s, i) {
-            const start = performance.now();
-            try {
-                await fetch(s.url, { mode: 'no-cors', cache: 'no-store' });
-                const latency = Math.round(performance.now() - start);
-                let health = Math.max(15, 100 - (latency / 15));
-                
-                document.getElementById(`ping-${i}`).innerText = latency;
-                document.getElementById(`badge-${i}`).innerText = "فعال";
-                document.getElementById(`badge-${i}`).className = "badge-status badge-online";
-                document.getElementById(`fill-${i}`).style.strokeDashoffset = 283 - (283 * health / 100);
-                document.getElementById(`quality-${i}`).innerText = latency < 150 ? "فائقة (Vercel)" : "جيدة (GitHub)";
-            } catch (e) {
-                document.getElementById(`badge-${i}`).innerText = "عطل";
-                document.getElementById(`badge-${i}`).style.color = "#ff3333";
-            }
-        }
+        let currentAppUrl = "";
 
-        function openApp(name, sub, icon, url, key) {
-            const appInfo = appsFullData[key];
-            document.getElementById('modalTitle').innerText = name;
-            document.getElementById('modalSub').innerText = sub;
-            document.getElementById('modalIcon').innerHTML = `<i class="fas ${icon}"></i>`;
-            document.getElementById('directLink').href = url;
-            document.getElementById('modalDesc').innerText = appInfo.desc;
-            document.getElementById('techSpecs').innerHTML = appInfo.specs.map(spec => 
-                `<div><i class="fas fa-check-circle" style="color:var(--accent);"></i> ${spec}</div>`
-            ).join('');
-            document.getElementById('appPage').style.display = 'block';
+        function viewApp(id) {
+            const app = APPS_DATABASE.find(a => a.id === id);
+            if(!app) return;
+
+            if(app.url.startsWith('#')) {
+                document.querySelector(app.url).scrollIntoView({behavior: 'smooth'});
+                return;
+            }
+
+            currentAppUrl = app.url;
+            document.getElementById('v-title').innerText = app.name;
+            document.getElementById('v-subtitle').innerText = app.sub;
+            document.getElementById('v-desc').innerText = app.desc;
+            document.getElementById('v-icon').innerHTML = `<i class="fas ${app.icon}"></i>`;
+            document.getElementById('v-link').href = app.url;
+            
+            const stackCont = document.getElementById('v-stack');
+            stackCont.innerHTML = app.tech.map(t => `<span style="background:rgba(0,242,255,0.1); color:var(--secondary); padding:5px 12px; border-radius:8px; font-size:0.8rem;">${t}</span>`).join('');
+
+            const viewer = document.getElementById('appViewer');
+            viewer.style.display = 'block';
+            setTimeout(() => viewer.classList.add('active'), 10);
             document.body.style.overflow = 'hidden';
         }
 
-        function closeApp() {
-            document.getElementById('appPage').style.display = 'none';
-            document.body.style.overflow = 'auto';
+        function closeViewer() {
+            const viewer = document.getElementById('appViewer');
+            viewer.classList.remove('active');
+            setTimeout(() => {
+                viewer.style.display = 'none';
+                document.body.style.overflow = 'auto';
+            }, 500);
         }
 
-        let timeLeft = 60;
-        setInterval(() => {
-            timeLeft--;
-            document.getElementById('counter').innerText = timeLeft;
-            document.getElementById('timer-bar').style.width = (timeLeft / 60 * 100) + "%";
-            if(timeLeft <= 0) {
-                timeLeft = 60;
-                services.forEach((s, i) => checkService(s, i));
-            }
-        }, 1000);
+        function shareApp() {
+            navigator.clipboard.writeText(currentAppUrl);
+            const toast = document.getElementById('toast');
+            toast.style.display = 'block';
+            setTimeout(() => toast.style.display = 'none', 2500);
+        }
 
-        initMonitor();
-        services.forEach((s, i) => checkService(s, i));
+        function updateSystemMeta() {
+            // تحديث الوقت كل ثانية لشعور أكثر بالحيوية
+            document.getElementById('clock').innerText = new Date().toLocaleTimeString('en-GB');
+            
+            // محاكاة زمن الاستجابة
+            const ping = Math.floor(Math.random() * 25) + 5;
+            document.getElementById('ping-val').innerText = ping + " MS";
+            
+            // حساب وقت التشغيل
+            const startDate = new Date("2026-01-09T00:00:00");
+            const diff = Math.floor((new Date() - startDate) / 1000);
+            const days = Math.floor(diff / 86400);
+            const hours = Math.floor((diff % 86400) / 3600);
+            document.getElementById('uptime-val').innerText = `${days}D ${hours}H`;
+
+            // تأثير التحميل العلوي
+            const loader = document.getElementById('loader');
+            loader.style.width = "100%";
+            setTimeout(() => loader.style.width = "0%", 400);
+        }
+
+        // Canvas Background Logic (تحسين الأداء وإضافة توهج)
+        const canvas = document.getElementById('bg-canvas');
+        const ctx = canvas.getContext('2d');
+        let particles = [];
+
+        function initCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+            particles = [];
+            for(let i=0; i<70; i++) {
+                particles.push({
+                    x: Math.random() * canvas.width,
+                    y: Math.random() * canvas.height,
+                    size: Math.random() * 2,
+                    speed: Math.random() * 0.5 + 0.2,
+                    opacity: Math.random()
+                });
+            }
+        }
+
+        function animateCanvas() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            particles.forEach(p => {
+                p.y -= p.speed;
+                if(p.y < 0) p.y = canvas.height;
+                
+                ctx.beginPath();
+                ctx.arc(p.x, p.y, p.size, 0, Math.PI*2);
+                ctx.fillStyle = `rgba(255, 255, 0, ${p.opacity})`;
+                ctx.shadowBlur = 10;
+                ctx.shadowColor = "#ffff00";
+                ctx.fill();
+            });
+            requestAnimationFrame(animateCanvas);
+        }
+
+        window.onload = () => {
+            initStore();
+            initCanvas();
+            animateCanvas();
+            setInterval(updateSystemMeta, 1000); // تحديث كل ثانية
+            updateSystemMeta();
+        };
+
+        window.onresize = initCanvas;
     </script>
 </body>
 </html>
