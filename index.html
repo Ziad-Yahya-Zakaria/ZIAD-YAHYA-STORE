@@ -3,9 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>زياد يحيى | Ziad Yahya - DotFlow Engine</title>
+    <title>زياد يحيى | Ziad Yahya - DotFlow Engine Pro</title>
     <link rel="manifest" href="manifest.json">
-    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;500;700;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@200;300;400;500;700;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root {
@@ -14,6 +14,9 @@
             --glass: rgba(20, 20, 20, 0.8);
             --text-main: #ffffff;
             --dotflow-color: #00f2ff;
+            --card-gradient: linear-gradient(145deg, #0a0a0a, #111111);
+            --neon-shadow: 0 0 15px rgba(255, 255, 0, 0.2);
+            --text-dim: #888;
         }
 
         * { box-sizing: border-box; transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1); }
@@ -27,7 +30,7 @@
             scroll-behavior: smooth;
         }
 
-        /* خلفية تقنية متحركة */
+        /* الخلفية الشبكية المتحركة */
         .bg-mesh {
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
@@ -52,7 +55,7 @@
         .logo { font-weight: 900; font-size: 1.5rem; color: var(--accent); letter-spacing: 1px; }
 
         .hero {
-            height: 90vh;
+            height: 85vh;
             display: flex;
             flex-direction: column;
             justify-content: center;
@@ -78,6 +81,48 @@
 
         .section-title { padding: 50px 5%; font-size: 1.8rem; border-right: 5px solid var(--accent); margin: 50px 5% 30px; }
 
+        /* --- نظام المراقبة الفائق (SVG Monitoring) --- */
+        .monitor-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+            gap: 25px;
+            padding: 0 5% 50px;
+        }
+
+        .service-card {
+            background: var(--card-gradient);
+            border: 1px solid #1a1a1a;
+            border-radius: 20px;
+            padding: 30px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .service-card:hover { border-color: var(--accent); box-shadow: var(--neon-shadow); transform: translateY(-5px); }
+
+        .gauge-box {
+            position: relative;
+            width: 160px; height: 160px;
+            margin: 20px auto;
+        }
+
+        .gauge-svg { transform: rotate(-90deg); width: 100%; height: 100%; }
+        .gauge-track { fill: none; stroke: #151515; stroke-width: 6; }
+        .gauge-progress {
+            fill: none; stroke: var(--accent); stroke-width: 6;
+            stroke-linecap: round; stroke-dasharray: 283; stroke-dashoffset: 283;
+            transition: stroke-dashoffset 2s ease-out;
+        }
+
+        .gauge-data { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); text-align: center; }
+        .ping-val { font-size: 2.2rem; font-weight: 700; color: #fff; line-height: 1; }
+        .ping-unit { font-size: 0.7rem; color: var(--text-dim); }
+
+        .badge-status { padding: 6px 14px; border-radius: 50px; font-size: 0.75rem; font-weight: 700; text-transform: uppercase; }
+        .badge-online { background: rgba(0, 255, 136, 0.1); color: #00ff88; }
+        .badge-loading { background: rgba(255, 255, 0, 0.1); color: var(--accent); }
+
+        /* --- متجر التطبيقات (App Store) --- */
         .app-container {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
@@ -86,121 +131,48 @@
         }
 
         .app-card {
-            background: #080808;
-            border-radius: 28px;
-            padding: 35px;
-            border: 1px solid #151515;
-            cursor: pointer;
-            position: relative;
+            background: #080808; border-radius: 28px; padding: 35px;
+            border: 1px solid #151515; cursor: pointer; position: relative;
         }
 
-        .app-card:hover {
-            border-color: var(--accent);
-            transform: translateY(-8px);
-            box-shadow: 0 15px 35px rgba(0,0,0,0.6);
-        }
-
+        .app-card:hover { border-color: var(--accent); transform: translateY(-8px); box-shadow: 0 15px 35px rgba(0,0,0,0.6); }
         .app-icon-large { font-size: 3.5rem; color: var(--accent); margin-bottom: 20px; }
 
-        /* App Page Overlay */
+        .tech-tag {
+            display: inline-block; background: #111; padding: 6px 14px;
+            border-radius: 6px; font-size: 0.75rem; margin: 4px; color: #777; border: 1px solid #1a1a1a;
+        }
+
+        /* --- صفحة التطبيق (App Overlay) --- */
         .app-overlay {
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: var(--bg-deep);
-            z-index: 1000;
-            display: none;
-            overflow-y: auto;
-            padding: 60px 5%;
-            animation: slideUp 0.4s ease;
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: var(--bg-deep); z-index: 1000; display: none;
+            overflow-y: auto; padding: 60px 5%; animation: slideUp 0.4s ease;
         }
 
         @keyframes slideUp { from { transform: translateY(100%); } to { transform: translateY(0); } }
 
-        .overlay-header {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 30px;
-            align-items: center;
-            max-width: 900px;
-            margin: auto;
-        }
-
         .app-img-box {
-            width: 140px; height: 140px;
-            background: #111;
-            border-radius: 32px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 4rem;
-            color: var(--accent);
-            border: 1px solid #222;
-        }
-
-        .install-panel {
-            background: #0a0a0a;
-            border-radius: 24px;
-            padding: 30px;
-            margin-top: 40px;
-            border: 1px solid #1a1a1a;
-            text-align: center;
+            width: 140px; height: 140px; background: #111; border-radius: 32px;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 4rem; color: var(--accent); border: 1px solid #222;
         }
 
         .btn-install {
-            background: var(--accent);
-            color: #000;
-            padding: 16px 40px;
-            border-radius: 12px;
-            font-weight: 900;
-            text-decoration: none;
-            display: inline-block;
-            width: 100%;
-            text-align: center;
-            font-size: 1.1rem;
-            border: none;
-            cursor: pointer;
+            background: var(--accent); color: #000; padding: 16px 40px;
+            border-radius: 12px; font-weight: 900; text-decoration: none;
+            display: inline-block; width: 100%; text-align: center; font-size: 1.1rem; border: none; cursor: pointer;
         }
 
-        .btn-outline {
-            background: transparent;
-            border: 2px solid var(--accent);
-            color: var(--accent);
-            margin-top: 15px;
-        }
+        .btn-outline { background: transparent; border: 2px solid var(--accent); color: var(--accent); margin-top: 15px; }
 
-        .tech-tag {
-            display: inline-block;
-            background: #111;
-            padding: 6px 14px;
-            border-radius: 6px;
-            font-size: 0.75rem;
-            margin: 4px;
-            color: #777;
-            border: 1px solid #1a1a1a;
-        }
-
-        .close-overlay {
-            position: fixed;
-            top: 25px; left: 25px;
-            background: #1a1a1a;
-            width: 45px; height: 45px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            z-index: 1001;
-        }
-
-        footer {
-            padding: 60px;
-            text-align: center;
-            border-top: 1px solid #111;
-            font-size: 0.85rem;
-            color: #444;
-        }
-
+        footer { padding: 60px; text-align: center; border-top: 1px solid #111; font-size: 0.85rem; color: #444; }
         .dotflow-footer { color: var(--dotflow-color); font-weight: bold; margin-top: 10px; display: block; }
+
+        #timer-bar {
+            position: fixed; bottom: 0; left: 0; height: 3px;
+            background: var(--accent); width: 100%; transition: width 1s linear;
+        }
     </style>
 </head>
 <body>
@@ -214,14 +186,16 @@
 
     <section class="hero">
         <div class="dev-badge"><i class="fas fa-bolt"></i> نظام دوت فلو التقني</div>
-        <h1>مستقبل البرمجيات<br><span style="color: var(--accent);">بلمسة إبداعية</span></h1>
-        <p>أنا زياد يحيى، مبرمج متخصص في بناء الأنظمة الذكية للمؤسسات. أستخدم محرك DotFlow لتطوير تطبيقات سريعة، فخمة، وقابلة للتثبيت على كافة الأجهزة.</p>
+        <h1>العقل البرمجي<br><span style="color: var(--accent);">لزياد يحيى</span></h1>
+        <p>مطور حلول الويب المتقدمة. اكتشف مجموعتي من التطبيقات والأنظمة الذكية المراقبة لحظياً لضمان أعلى مستويات الأداء في جمهورية مصر العربية.</p>
         <a href="#store" class="btn-install" style="width: auto; padding: 14px 35px; border-radius: 50px;">تصفح المتجر</a>
     </section>
 
+    <h2 class="section-title">مركز مراقبة الأنظمة (Node: Egypt)</h2>
+    <div class="monitor-grid" id="monitor-grid"></div>
+
     <div id="store">
         <h2 class="section-title">المتجر الذكي للأنظمة</h2>
-        
         <div class="app-container">
             <div class="app-card" onclick="openApp('RZ-ENTERPRISE', 'نظام تحصيل الفواتير الميدانية', 'fa-file-invoice-dollar', 'https://ziad-yahya-zakaria.github.io/RZ-ENTERPRISE/', 'enterprise')">
                 <div class="app-icon-large"><i class="fas fa-file-invoice-dollar"></i></div>
@@ -244,76 +218,126 @@
                     <span class="tech-tag">UTILITY</span>
                 </div>
             </div>
-            
         </div>
     </div>
 
     <div class="app-overlay" id="appPage">
-        <div class="close-overlay" onclick="closeApp()"><i class="fas fa-times"></i></div>
-        
-        <div class="overlay-header">
+        <div style="position:fixed; top:25px; left:25px; background:#1a1a1a; width:45px; height:45px; border-radius:50%; display:flex; align-items:center; justify-content:center; cursor:pointer;" onclick="closeApp()">
+            <i class="fas fa-times"></i>
+        </div>
+        <div style="display:flex; flex-wrap:wrap; gap:30px; align-items:center; max-width:900px; margin:auto;">
             <div class="app-img-box" id="modalIcon"></div>
             <div>
                 <h1 id="modalTitle" style="margin: 0; font-size: 2.2rem;"></h1>
                 <p id="modalSub" style="color: var(--accent); margin: 5px 0;"></p>
-                <div style="font-size: 0.9rem; color: #555;">الناشر: زياد يحيى • تم التطوير بمحرك دوت فلو</div>
+                <div style="font-size: 0.9rem; color: #555;">الناشر: زياد يحيى • محرك دوت فلو</div>
             </div>
         </div>
-
         <div style="max-width: 900px; margin: 40px auto;">
             <a id="directLink" href="#" class="btn-install" target="_blank">دخول المنصة الآن</a>
-            
-            <div class="install-panel">
-                <h3>تثبيت على الشاشة الرئيسية</h3>
-                <p style="color: #888; font-size: 0.9rem; margin-bottom: 20px;">احصل على تجربة كاملة بدون متصفح. سيظهر التطبيق في قائمة تطبيقات جهازك الرسمية.</p>
-                <button class="btn-install btn-outline" id="pwaBtn">تثبيت التطبيق على الجهاز</button>
-            </div>
-
-            <div style="margin-top: 40px; border-top: 1px solid #111; padding-top: 30px;">
+            <div style="margin-top: 40px;">
                 <h3 style="color: var(--accent);">عن النظام</h3>
                 <p id="modalDesc" style="line-height: 1.8; color: #aaa;"></p>
-                
                 <h3 style="margin-top: 30px;">المواصفات التقنية (DotFlow Core)</h3>
-                <div id="techSpecs" style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; color: #666; font-size: 0.9rem;">
-                    </div>
+                <div id="techSpecs" style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; color: #666; font-size: 0.9rem;"></div>
             </div>
         </div>
     </div>
 
     <footer>
         <p>تصميم وتطوير: زياد يحيى زكريا</p>
+        <div style="font-size: 0.8rem; color: #888; margin: 10px 0;">تحديث تلقائي خلال: <span id="counter">60</span> ثانية</div>
         <span class="dotflow-footer">POWERED BY DOTFLOW ENGINE V2.0</span>
         <p style="font-size: 0.7rem; margin-top: 15px; opacity: 0.3;">جميع الحقوق محفوظة &copy; 2026</p>
     </footer>
 
+    <div id="timer-bar"></div>
+
     <script>
-        // قاعدة بيانات التطبيقات لسهولة الإضافة والتحسين
-        const appsData = {
+        const services = [
+            {
+                name: "متجر تطبيقات دوت فلو",
+                url: "https://ziad-yahya-store.vercel.app",
+                desc: "المعرض الرقمي الرئيسي للأنظمة."
+            },
+            {
+                name: "نظام RZ-ENTERPRISE",
+                url: "https://ziad-yahya-zakaria.github.io/RZ-ENTERPRISE/",
+                desc: "إدارة التحصيل الميدانية."
+            },
+            {
+                name: "تطبيق Azan Time Web",
+                url: "https://ziad-yahya-zakaria.github.io/Azan-Time-Web/",
+                desc: "مواقيت الصلاة الجغرافية."
+            }
+        ];
+
+        const appsFullData = {
             'enterprise': {
-                desc: "الحل الذكي والحل التقني المتكامل لإدارة تحصيل فواتير المناديب ميدانياً بدقة واحترافية متناهية. يتميز بإدارة الفواتير، تعديل ذكي، طباعة PDF، وأمان متقدم بكلمة مرور مع نظام نسخ احتياطي.",
-                specs: ["دعم العمل بدون إنترنت", "تشفير البيانات محلياً", "تصدير/استيراد JSON", "تحديثات هوائية فورية"]
+                desc: "الحل الذكي لإدارة تحصيل فواتير المناديب ميدانياً بدقة واحترافية. يتميز بإدارة الفواتير، طباعة PDF، وأمان متقدم.",
+                specs: ["دعم العمل بدون إنترنت", "تشفير البيانات محلياً", "تصدير JSON", "تحديثات هوائية"]
             },
             'azan': {
-                desc: "تطبيق ويب بسيط ومفيد مخصص لعرض مواقيت الصلوات الخمس بناءً على الموقع الجغرافي للمستخدم أو مدينة محددة. يتميز بتحديد الموقع التلقائي، واجهة بسيطة ومريحة للعين، وتحديثات لحظية لمتابعة الوقت المتبقي للصلاة القادمة.",
-                specs: ["تحديد الموقع الجغرافي", "تحديثات لحظية", "خفيف وسريع (GitHub Pages)", "واجهة مستخدم بسيطة"]
+                desc: "تطبيق ويب مخصص لعرض مواقيت الصلوات بناءً على الموقع الجغرافي بدقة عالية وواجهة مريحة للعين.",
+                specs: ["تحديد الموقع الجغرافي", "تحديثات لحظية", "خفيف وسريع", "واجهة بسيطة"]
             }
         };
 
-        // دالة فتح صفحة التطبيق وتعبئة البيانات
-        function openApp(name, sub, icon, url, appKey) {
-            const appInfo = appsData[appKey];
+        function initMonitor() {
+            const grid = document.getElementById('monitor-grid');
+            grid.innerHTML = services.map((s, i) => `
+                <div class="service-card">
+                    <div style="display:flex; justify-content:space-between; align-items:start">
+                        <div class="service-info">
+                            <span class="badge-status badge-loading" id="badge-${i}">فحص..</span>
+                            <h3 style="margin:10px 0 5px 0; font-size:1.2rem;">${s.name}</h3>
+                        </div>
+                    </div>
+                    <div class="gauge-box">
+                        <svg class="gauge-svg" viewBox="0 0 100 100">
+                            <circle class="gauge-track" cx="50" cy="50" r="45"></circle>
+                            <circle id="fill-${i}" class="gauge-progress" cx="50" cy="50" r="45"></circle>
+                        </svg>
+                        <div class="gauge-data">
+                            <div class="ping-val" id="ping-${i}">--</div>
+                            <div class="ping-unit">MS PING</div>
+                        </div>
+                    </div>
+                    <div style="font-size:0.75rem; color:#444; border-top:1px solid #1a1a1a; padding-top:10px; margin-top:15px">
+                        الجودة في مصر: <span id="quality-${i}" style="color:#fff">--</span>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        async function checkService(s, i) {
+            const start = performance.now();
+            try {
+                await fetch(s.url, { mode: 'no-cors', cache: 'no-store' });
+                const latency = Math.round(performance.now() - start);
+                let health = Math.max(15, 100 - (latency / 15));
+                
+                document.getElementById(`ping-${i}`).innerText = latency;
+                document.getElementById(`badge-${i}`).innerText = "فعال";
+                document.getElementById(`badge-${i}`).className = "badge-status badge-online";
+                document.getElementById(`fill-${i}`).style.strokeDashoffset = 283 - (283 * health / 100);
+                document.getElementById(`quality-${i}`).innerText = latency < 150 ? "فائقة (Vercel)" : "جيدة (GitHub)";
+            } catch (e) {
+                document.getElementById(`badge-${i}`).innerText = "عطل";
+                document.getElementById(`badge-${i}`).style.color = "#ff3333";
+            }
+        }
+
+        function openApp(name, sub, icon, url, key) {
+            const appInfo = appsFullData[key];
             document.getElementById('modalTitle').innerText = name;
             document.getElementById('modalSub').innerText = sub;
             document.getElementById('modalIcon').innerHTML = `<i class="fas ${icon}"></i>`;
             document.getElementById('directLink').href = url;
             document.getElementById('modalDesc').innerText = appInfo.desc;
-            
-            // ملء المواصفات التقنية
-            const techSpecsDiv = document.getElementById('techSpecs');
-            techSpecsDiv.innerHTML = appInfo.specs.map(spec => 
-                `<div><i class="fas fa-check-circle" style="color: var(--accent);"></i> ${spec}</div>`
+            document.getElementById('techSpecs').innerHTML = appInfo.specs.map(spec => 
+                `<div><i class="fas fa-check-circle" style="color:var(--accent);"></i> ${spec}</div>`
             ).join('');
-            
             document.getElementById('appPage').style.display = 'block';
             document.body.style.overflow = 'hidden';
         }
@@ -323,33 +347,19 @@
             document.body.style.overflow = 'auto';
         }
 
-        // تسجيل الـ Service Worker لتفعيل الـ PWA
-        if ('serviceWorker' in navigator) {
-            navigator.serviceWorker.register('sw.js').then(() => {
-                console.log('DotFlow SW Registered');
-            });
-        }
+        let timeLeft = 60;
+        setInterval(() => {
+            timeLeft--;
+            document.getElementById('counter').innerText = timeLeft;
+            document.getElementById('timer-bar').style.width = (timeLeft / 60 * 100) + "%";
+            if(timeLeft <= 0) {
+                timeLeft = 60;
+                services.forEach((s, i) => checkService(s, i));
+            }
+        }, 1000);
 
-        // منطق زر التثبيت
-        let deferredPrompt;
-        window.addEventListener('beforeinstallprompt', (e) => {
-            e.preventDefault();
-            deferredPrompt = e;
-            const pwaBtn = document.getElementById('pwaBtn');
-            pwaBtn.style.display = 'inline-block';
-
-            pwaBtn.addEventListener('click', () => {
-                if(deferredPrompt) {
-                    deferredPrompt.prompt();
-                    deferredPrompt.userChoice.then((choiceResult) => {
-                        if (choiceResult.outcome === 'accepted') {
-                            console.log('User accepted the install prompt');
-                        }
-                        deferredPrompt = null;
-                    });
-                }
-            });
-        });
+        initMonitor();
+        services.forEach((s, i) => checkService(s, i));
     </script>
 </body>
 </html>
