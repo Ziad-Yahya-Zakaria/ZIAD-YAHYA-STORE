@@ -223,7 +223,7 @@
         <h2 class="section-title">المتجر الذكي للأنظمة</h2>
         
         <div class="app-container">
-            <div class="app-card" onclick="openApp('RZ-ENTERPRISE', 'نظام تحصيل الفواتير الميدانية', 'fa-file-invoice-dollar', 'https://ziad-yahya-zakaria.github.io/RZ-ENTERPRISE/')">
+            <div class="app-card" onclick="openApp('RZ-ENTERPRISE', 'نظام تحصيل الفواتير الميدانية', 'fa-file-invoice-dollar', 'https://ziad-yahya-zakaria.github.io/RZ-ENTERPRISE/', 'enterprise')">
                 <div class="app-icon-large"><i class="fas fa-file-invoice-dollar"></i></div>
                 <h3>RZ-ENTERPRISE</h3>
                 <p>الحل المتكامل لإدارة المناديب والتحصيل بدقة متناهية.</p>
@@ -233,8 +233,19 @@
                     <span class="tech-tag">DOTFLOW</span>
                 </div>
             </div>
-            
+
+            <div class="app-card" onclick="openApp('Azan Time Web', 'مواقيت الصلاة الذكية', 'fa-mosque', 'https://ziad-yahya-zakaria.github.io/Azan-Time-Web/', 'azan')">
+                <div class="app-icon-large"><i class="fas fa-mosque"></i></div>
+                <h3>Azan Time Web</h3>
+                <p>عرض مواقيت الصلاة بدقة بناءً على الموقع الجغرافي.</p>
+                <div style="margin-top: 15px;">
+                    <span class="tech-tag">GEOLOCATION</span>
+                    <span class="tech-tag">LATEST</span>
+                    <span class="tech-tag">UTILITY</span>
+                </div>
             </div>
+            
+        </div>
     </div>
 
     <div class="app-overlay" id="appPage">
@@ -263,12 +274,8 @@
                 <p id="modalDesc" style="line-height: 1.8; color: #aaa;"></p>
                 
                 <h3 style="margin-top: 30px;">المواصفات التقنية (DotFlow Core)</h3>
-                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; color: #666; font-size: 0.9rem;">
-                    <div><i class="fas fa-check-circle" style="color: var(--accent);"></i> دعم العمل بدون إنترنت</div>
-                    <div><i class="fas fa-check-circle" style="color: var(--accent);"></i> تشفير البيانات محلياً</div>
-                    <div><i class="fas fa-check-circle" style="color: var(--accent);"></i> متوافق مع Android/iOS/PC</div>
-                    <div><i class="fas fa-check-circle" style="color: var(--accent);"></i> تحديثات هوائية فورية</div>
-                </div>
+                <div id="techSpecs" style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; color: #666; font-size: 0.9rem;">
+                    </div>
             </div>
         </div>
     </div>
@@ -280,13 +287,32 @@
     </footer>
 
     <script>
+        // قاعدة بيانات التطبيقات لسهولة الإضافة والتحسين
+        const appsData = {
+            'enterprise': {
+                desc: "الحل الذكي والحل التقني المتكامل لإدارة تحصيل فواتير المناديب ميدانياً بدقة واحترافية متناهية. يتميز بإدارة الفواتير، تعديل ذكي، طباعة PDF، وأمان متقدم بكلمة مرور مع نظام نسخ احتياطي.",
+                specs: ["دعم العمل بدون إنترنت", "تشفير البيانات محلياً", "تصدير/استيراد JSON", "تحديثات هوائية فورية"]
+            },
+            'azan': {
+                desc: "تطبيق ويب بسيط ومفيد مخصص لعرض مواقيت الصلوات الخمس بناءً على الموقع الجغرافي للمستخدم أو مدينة محددة. يتميز بتحديد الموقع التلقائي، واجهة بسيطة ومريحة للعين، وتحديثات لحظية لمتابعة الوقت المتبقي للصلاة القادمة.",
+                specs: ["تحديد الموقع الجغرافي", "تحديثات لحظية", "خفيف وسريع (GitHub Pages)", "واجهة مستخدم بسيطة"]
+            }
+        };
+
         // دالة فتح صفحة التطبيق وتعبئة البيانات
-        function openApp(name, sub, icon, url) {
+        function openApp(name, sub, icon, url, appKey) {
+            const appInfo = appsData[appKey];
             document.getElementById('modalTitle').innerText = name;
             document.getElementById('modalSub').innerText = sub;
             document.getElementById('modalIcon').innerHTML = `<i class="fas ${icon}"></i>`;
             document.getElementById('directLink').href = url;
-            document.getElementById('modalDesc').innerText = "تم تصميم هذا النظام ليكون الحل الأمثل للمؤسسات، حيث يعتمد على بنية " + name + " التقنية التي توفر سرعة استجابة عالية وأماناً فائقاً للبيانات، مع واجهة مستخدم عصرية تدعم الوضع الليلي لراحة العين أثناء العمل الميداني.";
+            document.getElementById('modalDesc').innerText = appInfo.desc;
+            
+            // ملء المواصفات التقنية
+            const techSpecsDiv = document.getElementById('techSpecs');
+            techSpecsDiv.innerHTML = appInfo.specs.map(spec => 
+                `<div><i class="fas fa-check-circle" style="color: var(--accent);"></i> ${spec}</div>`
+            ).join('');
             
             document.getElementById('appPage').style.display = 'block';
             document.body.style.overflow = 'hidden';
@@ -313,13 +339,15 @@
             pwaBtn.style.display = 'inline-block';
 
             pwaBtn.addEventListener('click', () => {
-                deferredPrompt.prompt();
-                deferredPrompt.userChoice.then((choiceResult) => {
-                    if (choiceResult.outcome === 'accepted') {
-                        console.log('User accepted the install prompt');
-                    }
-                    deferredPrompt = null;
-                });
+                if(deferredPrompt) {
+                    deferredPrompt.prompt();
+                    deferredPrompt.userChoice.then((choiceResult) => {
+                        if (choiceResult.outcome === 'accepted') {
+                            console.log('User accepted the install prompt');
+                        }
+                        deferredPrompt = null;
+                    });
+                }
             });
         });
     </script>
