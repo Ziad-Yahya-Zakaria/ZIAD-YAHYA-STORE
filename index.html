@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>زياد يحيى | Ziad Yahya - DotFlow Engine</title>
+    <link rel="manifest" href="manifest.json">
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;500;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --accent: #ffff00;
+            --bg-deep: #020202;
+            --glass: rgba(20, 20, 20, 0.8);
+            --text-main: #ffffff;
+            --dotflow-color: #00f2ff;
+        }
+
+        * { box-sizing: border-box; transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1); }
+
+        body {
+            margin: 0;
+            font-family: 'Tajawal', sans-serif;
+            background-color: var(--bg-deep);
+            color: var(--text-main);
+            overflow-x: hidden;
+            scroll-behavior: smooth;
+        }
+
+        /* خلفية تقنية متحركة */
+        .bg-mesh {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: radial-gradient(circle at 10% 20%, rgba(255, 255, 0, 0.05) 0%, transparent 40%),
+                        radial-gradient(circle at 90% 80%, rgba(0, 242, 255, 0.03) 0%, transparent 40%);
+            z-index: -1;
+        }
+
+        nav {
+            padding: 20px 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            background: var(--glass);
+            backdrop-filter: blur(10px);
+            z-index: 100;
+            border-bottom: 1px solid #111;
+        }
+
+        .logo { font-weight: 900; font-size: 1.5rem; color: var(--accent); letter-spacing: 1px; }
+
+        .hero {
+            height: 90vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 20px;
+        }
+
+        .dev-badge {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 8px 20px;
+            border-radius: 50px;
+            border: 1px solid #333;
+            font-size: 0.8rem;
+            margin-bottom: 20px;
+            color: var(--dotflow-color);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .hero h1 { font-size: clamp(2.5rem, 8vw, 5.5rem); margin: 0; font-weight: 900; line-height: 1.1; }
+        .hero p { font-size: 1.1rem; color: #888; max-width: 700px; margin: 25px 0; line-height: 1.7; }
+
+        .section-title { padding: 50px 5%; font-size: 1.8rem; border-right: 5px solid var(--accent); margin: 50px 5% 30px; }
+
+        .app-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
+            padding: 0 5% 100px;
+        }
+
+        .app-card {
+            background: #080808;
+            border-radius: 28px;
+            padding: 35px;
+            border: 1px solid #151515;
+            cursor: pointer;
+            position: relative;
+        }
+
+        .app-card:hover {
+            border-color: var(--accent);
+            transform: translateY(-8px);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.6);
+        }
+
+        .app-icon-large { font-size: 3.5rem; color: var(--accent); margin-bottom: 20px; }
+
+        /* App Page Overlay */
+        .app-overlay {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: var(--bg-deep);
+            z-index: 1000;
+            display: none;
+            overflow-y: auto;
+            padding: 60px 5%;
+            animation: slideUp 0.4s ease;
+        }
+
+        @keyframes slideUp { from { transform: translateY(100%); } to { transform: translateY(0); } }
+
+        .overlay-header {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 30px;
+            align-items: center;
+            max-width: 900px;
+            margin: auto;
+        }
+
+        .app-img-box {
+            width: 140px; height: 140px;
+            background: #111;
+            border-radius: 32px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 4rem;
+            color: var(--accent);
+            border: 1px solid #222;
+        }
+
+        .install-panel {
+            background: #0a0a0a;
+            border-radius: 24px;
+            padding: 30px;
+            margin-top: 40px;
+            border: 1px solid #1a1a1a;
+            text-align: center;
+        }
+
+        .btn-install {
+            background: var(--accent);
+            color: #000;
+            padding: 16px 40px;
+            border-radius: 12px;
+            font-weight: 900;
+            text-decoration: none;
+            display: inline-block;
+            width: 100%;
+            text-align: center;
+            font-size: 1.1rem;
+            border: none;
+            cursor: pointer;
+        }
+
+        .btn-outline {
+            background: transparent;
+            border: 2px solid var(--accent);
+            color: var(--accent);
+            margin-top: 15px;
+        }
+
+        .tech-tag {
+            display: inline-block;
+            background: #111;
+            padding: 6px 14px;
+            border-radius: 6px;
+            font-size: 0.75rem;
+            margin: 4px;
+            color: #777;
+            border: 1px solid #1a1a1a;
+        }
+
+        .close-overlay {
+            position: fixed;
+            top: 25px; left: 25px;
+            background: #1a1a1a;
+            width: 45px; height: 45px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            z-index: 1001;
+        }
+
+        footer {
+            padding: 60px;
+            text-align: center;
+            border-top: 1px solid #111;
+            font-size: 0.85rem;
+            color: #444;
+        }
+
+        .dotflow-footer { color: var(--dotflow-color); font-weight: bold; margin-top: 10px; display: block; }
+    </style>
+</head>
+<body>
+
+    <div class="bg-mesh"></div>
+
+    <nav>
+        <div class="logo">ZIAD YAHYA</div>
+        <div style="font-size: 0.7rem; opacity: 0.4;">ENGINE: DOTFLOW V2.0</div>
+    </nav>
+
+    <section class="hero">
+        <div class="dev-badge"><i class="fas fa-bolt"></i> نظام دوت فلو التقني</div>
+        <h1>مستقبل البرمجيات<br><span style="color: var(--accent);">بلمسة إبداعية</span></h1>
+        <p>أنا زياد يحيى، مبرمج متخصص في بناء الأنظمة الذكية للمؤسسات. أستخدم محرك DotFlow لتطوير تطبيقات سريعة، فخمة، وقابلة للتثبيت على كافة الأجهزة.</p>
+        <a href="#store" class="btn-install" style="width: auto; padding: 14px 35px; border-radius: 50px;">تصفح المتجر</a>
+    </section>
+
+    <div id="store">
+        <h2 class="section-title">المتجر الذكي للأنظمة</h2>
+        
+        <div class="app-container">
+            <div class="app-card" onclick="openApp('RZ-ENTERPRISE', 'نظام تحصيل الفواتير الميدانية', 'fa-file-invoice-dollar', 'https://ziad-yahya-zakaria.github.io/RZ-ENTERPRISE/')">
+                <div class="app-icon-large"><i class="fas fa-file-invoice-dollar"></i></div>
+                <h3>RZ-ENTERPRISE</h3>
+                <p>الحل المتكامل لإدارة المناديب والتحصيل بدقة متناهية.</p>
+                <div style="margin-top: 15px;">
+                    <span class="tech-tag">PWA</span>
+                    <span class="tech-tag">OFFLINE</span>
+                    <span class="tech-tag">DOTFLOW</span>
+                </div>
+            </div>
+            
+            </div>
+    </div>
+
+    <div class="app-overlay" id="appPage">
+        <div class="close-overlay" onclick="closeApp()"><i class="fas fa-times"></i></div>
+        
+        <div class="overlay-header">
+            <div class="app-img-box" id="modalIcon"></div>
+            <div>
+                <h1 id="modalTitle" style="margin: 0; font-size: 2.2rem;"></h1>
+                <p id="modalSub" style="color: var(--accent); margin: 5px 0;"></p>
+                <div style="font-size: 0.9rem; color: #555;">الناشر: زياد يحيى • تم التطوير بمحرك دوت فلو</div>
+            </div>
+        </div>
+
+        <div style="max-width: 900px; margin: 40px auto;">
+            <a id="directLink" href="#" class="btn-install" target="_blank">دخول المنصة الآن</a>
+            
+            <div class="install-panel">
+                <h3>تثبيت على الشاشة الرئيسية</h3>
+                <p style="color: #888; font-size: 0.9rem; margin-bottom: 20px;">احصل على تجربة كاملة بدون متصفح. سيظهر التطبيق في قائمة تطبيقات جهازك الرسمية.</p>
+                <button class="btn-install btn-outline" id="pwaBtn">تثبيت التطبيق على الجهاز</button>
+            </div>
+
+            <div style="margin-top: 40px; border-top: 1px solid #111; padding-top: 30px;">
+                <h3 style="color: var(--accent);">عن النظام</h3>
+                <p id="modalDesc" style="line-height: 1.8; color: #aaa;"></p>
+                
+                <h3 style="margin-top: 30px;">المواصفات التقنية (DotFlow Core)</h3>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; color: #666; font-size: 0.9rem;">
+                    <div><i class="fas fa-check-circle" style="color: var(--accent);"></i> دعم العمل بدون إنترنت</div>
+                    <div><i class="fas fa-check-circle" style="color: var(--accent);"></i> تشفير البيانات محلياً</div>
+                    <div><i class="fas fa-check-circle" style="color: var(--accent);"></i> متوافق مع Android/iOS/PC</div>
+                    <div><i class="fas fa-check-circle" style="color: var(--accent);"></i> تحديثات هوائية فورية</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <p>تصميم وتطوير: زياد يحيى زكريا</p>
+        <span class="dotflow-footer">POWERED BY DOTFLOW ENGINE V2.0</span>
+        <p style="font-size: 0.7rem; margin-top: 15px; opacity: 0.3;">جميع الحقوق محفوظة &copy; 2026</p>
+    </footer>
+
+    <script>
+        // دالة فتح صفحة التطبيق وتعبئة البيانات
+        function openApp(name, sub, icon, url) {
+            document.getElementById('modalTitle').innerText = name;
+            document.getElementById('modalSub').innerText = sub;
+            document.getElementById('modalIcon').innerHTML = `<i class="fas ${icon}"></i>`;
+            document.getElementById('directLink').href = url;
+            document.getElementById('modalDesc').innerText = "تم تصميم هذا النظام ليكون الحل الأمثل للمؤسسات، حيث يعتمد على بنية " + name + " التقنية التي توفر سرعة استجابة عالية وأماناً فائقاً للبيانات، مع واجهة مستخدم عصرية تدعم الوضع الليلي لراحة العين أثناء العمل الميداني.";
+            
+            document.getElementById('appPage').style.display = 'block';
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeApp() {
+            document.getElementById('appPage').style.display = 'none';
+            document.body.style.overflow = 'auto';
+        }
+
+        // تسجيل الـ Service Worker لتفعيل الـ PWA
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('sw.js').then(() => {
+                console.log('DotFlow SW Registered');
+            });
+        }
+
+        // منطق زر التثبيت
+        let deferredPrompt;
+        window.addEventListener('beforeinstallprompt', (e) => {
+            e.preventDefault();
+            deferredPrompt = e;
+            const pwaBtn = document.getElementById('pwaBtn');
+            pwaBtn.style.display = 'inline-block';
+
+            pwaBtn.addEventListener('click', () => {
+                deferredPrompt.prompt();
+                deferredPrompt.userChoice.then((choiceResult) => {
+                    if (choiceResult.outcome === 'accepted') {
+                        console.log('User accepted the install prompt');
+                    }
+                    deferredPrompt = null;
+                });
+            });
+        });
+    </script>
+</body>
+</html>
