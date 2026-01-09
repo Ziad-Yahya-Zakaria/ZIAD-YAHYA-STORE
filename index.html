@@ -51,7 +51,6 @@
             border-bottom: 1px solid var(--border);
         }
 
-        /* حل مشكلة عكس الاسم باستخدام flex-direction: row-reverse لضمان الترتيب الصحيح في RTL */
         .brand {
             display: flex; 
             align-items: center; 
@@ -61,7 +60,7 @@
             font-weight: 700; 
             color: #fff;
             letter-spacing: 1px;
-            direction: ltr; /* لضمان بقاء ZIAD YAHYA بالترتيب الصحيح برمجياً */
+            direction: ltr;
         }
 
         .brand span { color: var(--primary); text-shadow: 0 0 15px var(--primary-glow); }
@@ -228,7 +227,6 @@
 </head>
 <body>
 
-    <div id="loader" style="position: fixed; top: 0; left: 0; width: 0; height: 3px; background: var(--primary); z-index: 3000; transition: 0.4s;"></div>
     <div id="toast">تم نسخ الرابط بنجاح!</div>
     <canvas id="bg-canvas"></canvas>
 
@@ -369,7 +367,7 @@
 
         function initStore() {
             const container = document.getElementById('main-app-container');
-            container.innerHTML = ''; // تنظيف الحاوية أولاً
+            container.innerHTML = ''; 
             APPS_DATABASE.forEach((app, index) => {
                 const card = `
                     <div class="app-card animate__animated animate__fadeInUp" style="animation-delay: ${index * 0.15}s" onclick="viewApp('${app.id}')">
@@ -431,27 +429,16 @@
         }
 
         function updateSystemMeta() {
-            // تحديث الوقت كل ثانية لشعور أكثر بالحيوية
             document.getElementById('clock').innerText = new Date().toLocaleTimeString('en-GB');
-            
-            // محاكاة زمن الاستجابة
             const ping = Math.floor(Math.random() * 25) + 5;
             document.getElementById('ping-val').innerText = ping + " MS";
-            
-            // حساب وقت التشغيل
             const startDate = new Date("2026-01-09T00:00:00");
             const diff = Math.floor((new Date() - startDate) / 1000);
             const days = Math.floor(diff / 86400);
             const hours = Math.floor((diff % 86400) / 3600);
             document.getElementById('uptime-val').innerText = `${days}D ${hours}H`;
-
-            // تأثير التحميل العلوي
-            const loader = document.getElementById('loader');
-            loader.style.width = "100%";
-            setTimeout(() => loader.style.width = "0%", 400);
         }
 
-        // Canvas Background Logic (تحسين الأداء وإضافة توهج)
         const canvas = document.getElementById('bg-canvas');
         const ctx = canvas.getContext('2d');
         let particles = [];
@@ -491,7 +478,7 @@
             initStore();
             initCanvas();
             animateCanvas();
-            setInterval(updateSystemMeta, 1000); // تحديث كل ثانية
+            setInterval(updateSystemMeta, 1000);
             updateSystemMeta();
         };
 
