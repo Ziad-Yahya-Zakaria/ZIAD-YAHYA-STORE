@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
@@ -204,6 +204,7 @@
         footer { padding: 80px 6% 40px; background: #010101; border-top: 1px solid var(--border); }
         .footer-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 40px; }
         .footer-about h2 { font-family: 'Orbitron'; margin-bottom: 20px; font-size: 1.5rem; direction: ltr; text-align: right; }
+        .footer-about p { color: var(--text-mute); font-size: 0.9rem; }
         .footer-links h4 { color: var(--primary); margin-bottom: 20px; font-size: 1rem; }
         .footer-links ul { list-style: none; }
         .footer-links li { margin-bottom: 12px; color: var(--text-mute); font-size: 0.9rem; transition: 0.3s; cursor: pointer; }
@@ -304,7 +305,7 @@
         <div class="footer-grid">
             <div class="footer-about">
                 <h2>ZIAD YAHYA</h2>
-                <p style="color: var(--text-mute); font-size: 0.9rem;">مطور برمجيات متخصص في بناء الأنظمة المعقدة وواجهات المستخدم التفاعلية. جميع التطبيقات المتوفرة هي نتاج تطوير خاص ومستمر.</p>
+                <p>مطور برمجيات متخصص في بناء الأنظمة المعقدة وواجهات المستخدم التفاعلية. جميع التطبيقات المتوفرة هي نتاج تطوير خاص ومستمر.</p>
                 <div style="margin-top: 25px; display: flex; gap: 15px;">
                     <a href="https://github.com/Ziad-Yahya-Zakaria" target="_blank" style="color: #fff; font-size: 1.4rem;"><i class="fab fa-github"></i></a>
                     <a href="https://www.linkedin.com/in/zssd/" target="_blank" style="color: var(--primary); font-size: 1.4rem;"><i class="fab fa-linkedin"></i></a>
@@ -341,7 +342,8 @@
                 desc: 'النظام الرائد في إدارة العمليات المالية الميدانية. يتيح للمناديب تحصيل الفواتير، إصدار السندات، والربط المباشر مع قواعد البيانات المركزية حتى في حال انقطاع الإنترنت.',
                 tech: ['JavaScript', 'PWA', 'SQLite'],
                 tags: ['Enterprise', 'Finance'],
-                url: 'https://ziad-yahya-zakaria.github.io/RZ-ENTERPRISE/'
+                url: 'https://ziad-yahya-zakaria.github.io/RZ-ENTERPRISE/',
+                downloadUrl: 'https://onedrive.live.com/personal/a653b1548e53713f/_layouts/15/download.aspx?UniqueId=2145acea%2D56f0%2D47ac%2Da173%2Db81be1e61aeb'
             },
             {
                 id: 'azan-web',
@@ -401,7 +403,15 @@
             document.getElementById('v-subtitle').innerText = app.sub;
             document.getElementById('v-desc').innerText = app.desc;
             document.getElementById('v-icon').innerHTML = `<i class="fas ${app.icon}"></i>`;
-            document.getElementById('v-link').href = app.url;
+            
+            const actionBtn = document.getElementById('v-link');
+            if(app.downloadUrl) {
+                actionBtn.href = app.downloadUrl;
+                actionBtn.innerText = "تحميل إصدار الويندوز";
+            } else {
+                actionBtn.href = app.url;
+                actionBtn.innerText = "تشغيل النظام الآن";
+            }
             
             const stackCont = document.getElementById('v-stack');
             stackCont.innerHTML = app.tech.map(t => `<span style="background:rgba(0,242,255,0.1); color:var(--secondary); padding:5px 12px; border-radius:8px; font-size:0.8rem;">${t}</span>`).join('');
